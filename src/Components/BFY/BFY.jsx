@@ -50,9 +50,9 @@ const BFY = () => {
             </Link>
           ))}
         </div>
-        <div className="flex justify-center gap-10 items-center mt-10">
+        <div className="flex flex-col md:flex-row justify-center gap-10 items-center mt-10">
           <Link to="/product">
-            <button className="w-35 hidden sm:block bg-secondary hover:bg-primary text-putih font-semibold py-2 rounded-full mt-4 transition-all ease-in-out duration-300 px-6">
+            <button className="w-35 bg-secondary hover:bg-primary text-putih font-semibold py-2 rounded-full mt-4 transition-all ease-in-out duration-300 px-6">
               View More
             </button>
           </Link>

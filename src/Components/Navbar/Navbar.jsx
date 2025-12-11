@@ -50,7 +50,7 @@ const Navbar = () => {
           className="bg-primary/95 mx-4 mt-2 rounded-2xl shadow-xl border border-accent/30 animate-zoom-in"
           onClick={(e) => e.stopPropagation()}
         >
-          <ul className="flex flex-col py-4">
+          <ul className="flex flex-col py-4 z-50">
             <li>
               <a 
                 href="#home" 
