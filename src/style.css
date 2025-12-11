@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #9D5C0D;
+  --color-secondary: #E5890A;
+  --color-accent: #F7D08A;
+  --color-putih: #FAFAFA;
+  --font-family-poppins: 'Poppins', sans-serif;
+  --font-family-comic: 'Comic Relief', system-ui;
+}
+*{
+  /* margin: 0;
+  padding: 0; */
+  /* box-sizing: border-box; */
+  scroll-behavior: smooth;
+}
+
+/* Fallback jika utility class tidak bekerja */
+.font-comic {
+  font-family: 'Comic Relief', system-ui;
+}
+
+.font-poppins {
+  font-family: 'Poppins', sans-serif;
+}
