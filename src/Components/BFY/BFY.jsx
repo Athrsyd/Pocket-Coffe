@@ -27,7 +27,7 @@ const BFY = () => {
           {dataBfy.map((item, idx) => (
             <Link to="/product" key={item.id}>
               <div
-                className="bg-accent rounded-2xl shadow-lg p-5 w-[250px] hover:shadow-xl hover:bg-primary group transition-all ease-in-out duration-300 border border-accent/30"
+                className="bg-accent rounded-2xl shadow-lg p-5 my-10 w-[250px] hover:shadow-xl hover:bg-primary group transition-all ease-in-out duration-300 border border-accent/30"
                 data-aos="zoom-in-up"
                 data-aos-delay={idx * 100}
               >

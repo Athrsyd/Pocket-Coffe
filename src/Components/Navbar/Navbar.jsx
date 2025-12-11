@@ -10,10 +10,10 @@ const Navbar = () => {
 
   return (
 <header className="fixed w-screen flex justify-center rounded-full pt-2 top-2 left-0 z-50">
-    <nav className="bg-primary/70 w-[95vw] backdrop-blur-sm shadow-lg px-5 sm:px-15 py-5 flex justify-between
-    items-center m-2 rounded-full border border-accent/30">
+    <nav className="bg-accent/70 w-[95vw] backdrop-blur-sm z-order-last shadow-lg px-5 sm:px-15 py-5 flex justify-between
+    items-center m-2 rounded-3xl border border-accent/30">
         <div className="logo">
-            <a href="#home"><img src={logo} alt="Pocket Coffee Logo" className="h-8"/></a>
+            <a href="#home"><img src={logo} alt="Pocket Coffee Logo" className="h-10"/></a>
         </div>
         
         {/* Desktop Menu */}

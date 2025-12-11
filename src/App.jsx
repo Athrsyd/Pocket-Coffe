@@ -89,7 +89,7 @@ const App = () => {
   return (
     <div
       id="home"
-      className="bg-primary overflow-hidden pt-16 md:pt-29 min-h-screen flex sm:flex-row justify-between items-center gap-0 sm:gap-10 flex-col-reverse px-5 sm:px-10"
+      className="bg-primary overflow-hidden pt-29 min-h-screen flex sm:flex-row justify-between items-center gap-0 sm:gap-10 flex-col-reverse px-5 sm:px-10"
     >
       <div className="hiasan absolute hidden sm:block -top-80 left-100 rotate-30 z-20 rounded-2xl bg-accent w-3xl h-[500px]"></div>
       {/* Kiri - Text */}
@@ -122,7 +122,7 @@ const App = () => {
       </div>
 
       {/* Kanan - Slider */}
-      <div className="kanan w-full z-50 sm:w-1/2 max-w-md relative mt-5 px-4" data-aos="fade-left">
+      <div className="kanan w-full z-40 sm:w-1/2 max-w-md relative mt-5 px-4" data-aos="fade-left">
         <div className="w-full">
           <Slider {...settings}>
             {listGambar.map((item, idx) => (

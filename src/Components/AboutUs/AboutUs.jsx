@@ -1,5 +1,5 @@
 import Gambar1 from "../../assets/About1.jpeg";
-import Gambar2 from "../../assets/About2.jpeg";
+import Gambar2 from "../../assets/Ab3.png";
 import Logo from "../../assets/LogoPC.jpeg";
 import Trans1 from "../Trans/Trans1.jsx";
 import AOS from "aos";
