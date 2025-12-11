@@ -1,10 +1,13 @@
 import bg from "../../assets/FooterBg.jpg";
 import { FaFacebook, FaLinkedin, FaInstagram } from "react-icons/fa";
 import logo from "../../assets/Pocket Coffe Logo Hor.svg";
+import Trans4 from "../Trans/Trans4.jsx";
 
 
 const Footer = () => {
   return (
+    <>
+    <Trans4 />
     <footer className="relative text-putih overflow-hidden">
       {/* Background Image */}
       <div 
@@ -12,7 +15,7 @@ const Footer = () => {
         // style={{ backgroundImage: `url(${bg})` }}
       >
         {/* Overlay */}
-        <div className="absolute inset-0 bg-[#5D4037]/90"></div>
+        <div className="absolute inset-0 bg-[#5D4037]"></div>
       </div>
 
       {/* Content */}
@@ -93,6 +96,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
+    </>
   )
 }
 
