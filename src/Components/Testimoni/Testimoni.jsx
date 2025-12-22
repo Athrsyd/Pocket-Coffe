@@ -9,6 +9,8 @@ import Foto4 from "../../assets/Testimonial/Foto4.jpeg";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
+import Trans4 from "../Trans/Trans4.jsx";
+
 
 const testimoniData = [
   {
@@ -125,6 +127,7 @@ const Testimoni = () => {
           </Slider>
         </div>
       </div>
+        <Trans4 />
     </>
   );
 };

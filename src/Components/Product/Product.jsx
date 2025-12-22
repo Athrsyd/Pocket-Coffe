@@ -3,6 +3,7 @@ import listProductCoffe from "../BFY/listProductCoffe.js";
 import listProductNonCoffe from "../BFY/listProductNonCoffe.js";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import HowToBuy from "../HowToBuy/HowToBuy.jsx";
+import AOS from "aos"
 
 const Product = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -58,13 +59,13 @@ const Product = () => {
       <div className="homeButton fixed top-0 left-0 z-50">
         <a
           href="/"
-          className="mt-5 ml-5 text-white hover:scale-105 transition-all ease-in-out duration-500 bg-primary/90 backdrop-blur-sm shadow-lg px-4 py-2 flex justify-center rounded-full"
+          className="mt-5 ml-5 text-putih hover:scale-105 transition-all ease-in-out duration-500 bg-primary/90 backdrop-blur-sm shadow-lg px-4 py-2 flex justify-center rounded-full"
         >
           Home
         </a>
       </div>
       <div className="py-10 bg-putih min-h-screen px-10">
-        <h1 className="text-center text-3xl font-comic text-primary mb-10">
+        <h1 id="product" className="text-center text-3xl font-comic text-primary mb-10">
           Our Products
         </h1>
         <div className="flex flex-col md:flex-row justify-center gap-5 items-center mb-10">
@@ -109,7 +110,7 @@ const Product = () => {
           </a>
         </div>
         <h2 className="text-2xl text-primary mb-5 font-bold">Coffee</h2>
-        <div className="grid grid-cols-2 md:flex md:flex-row md:flex-wrap gap-7 md:gap-20 my-10 md:my-25 justify-center">
+        <div data-aos="fade-up" data-aos-duration="2500" className="grid grid-cols-2 md:flex md:flex-row md:flex-wrap gap-7 md:gap-20 my-10 md:my-25 justify-center">
           {filteredCoffe.length > 0 ? (
             filteredCoffe.map((item) => (
             <div
@@ -142,7 +143,7 @@ const Product = () => {
         </div>
 
         <h2 className="text-2xl text-primary mb-30 font-bold">Non-Coffee</h2>
-        <div className="grid grid-cols-2 md:flex md:flex-row md:flex-wrap gap-3 md:gap-20 my-10 md:my-25 justify-center">
+        <div data-aos="fade-up" data-aos-duration="2500"  className="grid grid-cols-2 md:flex md:flex-row md:flex-wrap gap-3 md:gap-20 my-10 md:my-25 justify-center">
           {filteredNonCoffe.length > 0 ? (
             filteredNonCoffe.map((item) => (
             <div
