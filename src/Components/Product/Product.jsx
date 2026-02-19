@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import listProductCoffe from "../BFY/listProductCoffe.js";
 import listProductNonCoffe from "../BFY/listProductNonCoffe.js";
-import { FaSearch, FaTimes } from "react-icons/fa";
+import { FaSearch, FaTimes, FaHeart, FaHome } from "react-icons/fa";
 import HowToBuy from "../HowToBuy/HowToBuy.jsx";
 import AOS from "aos";
 
@@ -10,7 +10,47 @@ const Product = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredCoffe, setFilteredCoffe] = useState(listProductCoffe);
   const [filteredNonCoffe, setFilteredNonCoffe] = useState(listProductNonCoffe);
+  const [lovedItems, setLovedItems] = useState(() => {
+    try {
+      const saved = localStorage.getItem('lovedItems');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+  const [view, setView] = useState('all');
 
+  // Sync lovedItems ke localStorage setiap kali berubah (seperti Quran.jsx)
+  useEffect(() => {
+    localStorage.setItem('lovedItems', JSON.stringify(lovedItems));
+  }, [lovedItems]);
+
+  // Toggle love dengan logic seperti toggleAyatDiSukai di Quran.jsx
+  const toggleLove = (item, tipe) => {
+    const exists = lovedItems.find(
+      (loved) => loved.id === item.id && loved.tipe === tipe
+    );
+    let updatedLovedItems;
+    if (exists) {
+      updatedLovedItems = lovedItems.filter(
+        (loved) => !(loved.id === item.id && loved.tipe === tipe)
+      );
+    } else {
+      updatedLovedItems = [...lovedItems, {
+        id: item.id,
+        tipe: tipe,
+        nama: item.nama,
+      }];
+    }
+    setLovedItems(updatedLovedItems);
+  };
+
+  // Cek apakah item disukai
+  const isLoved = (itemId, tipe) => {
+    return lovedItems.some(
+      (loved) => loved.id === itemId && loved.tipe === tipe
+    );
+  };
   const openPopup = () => setIsPopupOpen(true);
   const closePopup = () => setIsPopupOpen(false);
 
@@ -58,11 +98,12 @@ const Product = () => {
       <div className="homeButton fixed top-0 left-0 z-50">
         <a
           href="/"
-          className="mt-5 ml-5 text-putih hover:scale-105 transition-all ease-in-out duration-500 bg-primary/90 backdrop-blur-sm shadow-lg px-4 py-2 flex justify-center rounded-full"
+          className="mt-5 ml-5 text-putih hover:scale-105 transition-all ease-in-out duration-500 bg-primary backdrop-blur-sm shadow-lg px-4 py-2 flex justify-center rounded-full"
         >
-          Home
+          <FaHome className="text-lg " />
         </a>
       </div>
+
       <div className="py-10 bg-putih min-h-screen px-10">
         <h1
           id="product"
@@ -85,31 +126,27 @@ const Product = () => {
             <button
               onClick={handleSearch}
               disabled={searchTerm.trim() === ""}
-              className={`p-2 px-3 rounded-full transition-all ease-in-out duration-300 ${
-                searchTerm.trim() === ""
-                  ? "bg-gray-300 cursor-not-allowed opacity-50"
-                  : "bg-accent/20 hover:bg-accent/40 cursor-pointer"
-              }`}
+              className={`p-2 px-3 rounded-full transition-all ease-in-out duration-300 ${searchTerm.trim() === ""
+                ? "bg-gray-300 cursor-not-allowed opacity-50"
+                : "bg-accent/20 hover:bg-accent/40 cursor-pointer"
+                }`}
             >
               <FaSearch
-                className={`text-lg font-semibold ${
-                  searchTerm.trim() === "" ? "text-gray-400" : "text-accent"
-                }`}
+                className={`text-lg font-semibold ${searchTerm.trim() === "" ? "text-gray-400" : "text-accent"
+                  }`}
               />
             </button>
             <button
               onClick={clearSearch}
               disabled={searchTerm.trim() === ""}
-              className={`p-2 px-3 rounded-full transition-all ease-in-out duration-300 ${
-                searchTerm.trim() === ""
-                  ? "bg-gray-300 cursor-not-allowed opacity-50"
-                  : "bg-red-100 hover:bg-red-200 cursor-pointer"
-              }`}
+              className={`p-2 px-3 rounded-full transition-all ease-in-out duration-300 ${searchTerm.trim() === ""
+                ? "bg-gray-300 cursor-not-allowed opacity-50"
+                : "bg-red-100 hover:bg-red-200 cursor-pointer"
+                }`}
             >
               <FaTimes
-                className={`text-lg font-semibold ${
-                  searchTerm.trim() === "" ? "text-gray-400" : "text-red-500"
-                }`}
+                className={`text-lg font-semibold ${searchTerm.trim() === "" ? "text-gray-400" : "text-red-500"
+                  }`}
               />
             </button>
           </div>
@@ -119,93 +156,222 @@ const Product = () => {
             </button>
           </a>
         </div>
-        <h2 className="text-2xl text-primary mb-5 font-bold">Coffee</h2>
-        <div className="grid grid-cols-2 md:flex md:flex-row md:flex-wrap gap-7 md:gap-20 my-10 md:my-25 justify-center">
-          {filteredCoffe.length > 0 ? (
-            filteredCoffe.map((item) => (
-              <div
-                key={item.id}
-                className="card bg-putih hover:bg-accent relative group rounded-2xl mb-8 md:mb-25 pt-24 md:pt-40 shadow-lg p-3 md:p-5 w-full md:w-[280px] border border-accent/30 transition-all ease-in-out duration-300"
-              >
-                <div className="gambar">
-                  <img
-                    src={item.gambar}
-                    alt={item.nama}
-                    className="rounded-xl absolute bottom-[65%] md:bottom-60 left-2 md:left-10 w-[85%] md:w-[225px] group-hover:scale-110 group-hover:rotate-3 transition-all ease-in-out duration-500"
-                  />
-                </div>
-                <h3 className="text-sm md:text-lg text-primary font-bold">
-                  {item.nama}
-                </h3>
-                <p className="text-xs md:text-base text-secondary font-semibold">
-                  {item.harga}
-                </p>
-                <p className="text-[8px] md:text-[12px] text-black mt-1 md:mt-2 font-semibold hidden md:block">
-                  {item.deskripsi}
-                </p>
-                <p className="text-[7px] md:text-[12px] text-start group-hover:bg-primary bg-accent py-1.5 md:py-3 px-2 md:px-5 rounded-full font-semibold group-hover:text-accent text-primary mt-1 md:mt-2 transition-all ease-in-out duration-500">
-                  {item.untuk}
-                </p>
-                <button
-                  onClick={openPopup}
-                  className="w-full bg-secondary hover:bg-primary text-putih font-semibold text-xs md:text-base py-1.5 md:py-2 rounded-full mt-2 md:mt-4 transition-all ease-in-out duration-300"
-                >
-                  Order Now
-                </button>
-              </div>
-            ))
-          ) : (
-            <p className="text-gray-500 text-center w-full">
-              Tidak ada produk coffee ditemukan
-            </p>
-          )}
-        </div>
+        <nav>
+          <ul className="flex flex-row gap-5 justify-center mb-10">
+            <li>
+              <button
+                onClick={() => {
+                  setView('all');
+                  setFilteredCoffe(listProductCoffe);
+                  setFilteredNonCoffe(listProductNonCoffe);
+                }}
+                className={`font-semibold text-md sm:text-lg transition-all ease-in-out duration-300 px-3 py-1 rounded-full ${
+                  view === 'all'
+                    ? 'bg-secondary text-putih'
+                    : 'text-primary hover:bg-secondary/40 hover:text-primary'
+                }`}
+              >All</button>
+            </li>
+            {/* <li>
+              <button
+                onClick={() => {
+                  setView('all');
+                  setFilteredCoffe(listProductCoffe);
+                  setFilteredNonCoffe([]);
+                }}
+                className="text-primary font-semibold text-md sm:text-lg transition-all ease-in-out duration-300 hover:bg-secondary/40 hover:text-primary px-3 py-1 rounded-full"
+                >Coffee</button>
+            </li>
+            <li>
+              <button
+                onClick={() => {
+                  setView('all');
+                  setFilteredCoffe([]);
+                  setFilteredNonCoffe(listProductNonCoffe);
+                }}
+                className="text-primary font-semibold text-md sm:text-lg transition-all ease-in-out duration-300 hover:bg-secondary/40 hover:text-primary px-3 py-1 rounded-full"
+              >Non-Coffee</button>
+            </li> */}
+            <li>
+              <button
+                onClick={() => {
+                  setView('loved');
+                }}
+                className={`font-semibold text-md sm:text-lg transition-all ease-in-out duration-300 px-3 py-1 rounded-full ${
+                  view === 'loved'
+                    ? 'bg-secondary text-putih'
+                    : 'text-primary hover:bg-secondary/40 hover:text-primary'
+                }`}
+              >Minuman disukai</button>
+            </li>
+          </ul>
+        </nav>
+        {view === 'all' ? (
+          <>
+            <h2 className="text-2xl text-primary mb-5 font-bold">Coffee</h2>
+            <div className="grid grid-cols-2 md:flex md:flex-row md:flex-wrap gap-7 md:gap-20 my-10 md:my-25 justify-center">
+              {filteredCoffe.length > 0 ? (
+                filteredCoffe.map((item) => (
+                  <div
+                    key={item.id}
+                    className="card bg-putih hover:bg-accent relative group rounded-2xl mb-8 md:mb-25 pt-24 md:pt-40 shadow-lg p-3 md:p-5 w-full md:w-[280px] border border-accent/30 transition-all ease-in-out duration-300"
+                  >
 
-        <h2 className="text-2xl text-primary mb-30 font-bold">Non-Coffee</h2>
-        <div className="grid grid-cols-2 md:flex md:flex-row md:flex-wrap gap-3 md:gap-20 my-10 md:my-25 justify-center">
-          {filteredNonCoffe.length > 0 ? (
-            filteredNonCoffe.map((item) => (
-              <div
-                key={item.id}
-                className="card bg-putih hover:bg-accent relative group rounded-2xl mb-8 md:mb-30 pt-24 md:pt-40 shadow-lg p-3 md:p-5 w-full md:w-[280px] border border-accent/30 transition-all ease-in-out duration-300"
-              >
-                <div className="gambar">
-                  <img
-                    src={item.gambar}
-                    alt={item.nama}
-                    className="rounded-xl absolute bottom-[65%] md:bottom-60 left-2 md:left-10 w-[85%] md:w-[225px] group-hover:scale-110 group-hover:rotate-3 transition-all ease-in-out duration-500"
-                  />
+                    <div className="gambar">
+                      <img
+                        src={item.gambar}
+                        alt={item.nama}
+                        className="rounded-xl absolute bottom-[65%] md:bottom-60 left-2 md:left-10 w-[85%] md:w-[225px] group-hover:scale-110 group-hover:rotate-3 transition-all ease-in-out duration-500"
+                      />
+                    </div>
+                    <h3 className="text-sm md:text-lg text-primary font-bold">
+                      {item.nama}
+                    </h3>
+                    <p className="text-xs md:text-base text-secondary font-semibold">
+                      {item.harga}
+                    </p>
+                    <p className="text-[8px] md:text-[12px] text-black mt-1 md:mt-2 font-semibold hidden md:block">
+                      {item.deskripsi}
+                    </p>
+                    <p className="text-[7px] md:text-[12px] text-start group-hover:bg-primary bg-accent py-1.5 md:py-3 px-2 md:px-5 rounded-full font-semibold group-hover:text-accent text-primary mt-1 md:mt-2 transition-all ease-in-out duration-500">
+                      {item.untuk}
+                    </p>
+                    <button
+                      onClick={openPopup}
+                      className="w-full bg-secondary hover:bg-primary text-putih font-semibold text-xs md:text-base py-1.5 md:py-2 rounded-full mt-2 md:mt-4 transition-all ease-in-out duration-300"
+                    >
+                      Order Now
+                    </button>
+                    <div className="likeButton">
+                      <button onClick={() => toggleLove(item, 'coffee')} className="absolute top-2 right-2 transition-all duration-300">
+                        <FaHeart className={`text-lg ${isLoved(item.id, 'coffee') ? 'text-red-500' : 'text-gray-300'} transition-colors duration-300`} />
+                      </button>
+                    </div>
+                  </div>
+
+                ))
+              ) : (
+                <p className="text-gray-500 text-center w-full">
+                  Tidak ada produk coffee ditemukan
+                </p>
+              )}
+            </div>
+
+            <h2 className="text-2xl text-primary mb-30 font-bold">Non-Coffee</h2>
+            <div className="grid grid-cols-2 md:flex md:flex-row md:flex-wrap gap-3 md:gap-20 my-10 md:my-25 justify-center">
+              {filteredNonCoffe.length > 0 ? (
+                filteredNonCoffe.map((item) => (
+                  <div
+                    key={item.id}
+                    className="card bg-putih hover:bg-accent relative group rounded-2xl mb-8 md:mb-30 pt-24 md:pt-40 shadow-lg p-3 md:p-5 w-full md:w-[280px] border border-accent/30 transition-all ease-in-out duration-300"
+                  >
+                    <div className="gambar">
+                      <img
+                        src={item.gambar}
+                        alt={item.nama}
+                        className="rounded-xl absolute bottom-[65%] md:bottom-60 left-2 md:left-10 w-[85%] md:w-[225px] group-hover:scale-110 group-hover:rotate-3 transition-all ease-in-out duration-500"
+                      />
+                    </div>
+                    <h3 className="text-sm md:text-lg text-primary font-bold">
+                      {item.nama}
+                    </h3>
+                    <p className="text-xs md:text-base text-secondary font-semibold">
+                      {item.harga}
+                    </p>
+                    <p className="text-[10px] md:text-[12px] text-black mt-1 md:mt-2 font-semibold hidden md:block">
+                      {item.deskripsi}
+                    </p>
+                    <p className="text-[8px] md:text-[12px] text-start group-hover:bg-primary bg-accent py-1.5 md:py-3 px-2 md:px-5 rounded-full font-semibold group-hover:text-accent text-primary mt-1 md:mt-2 transition-all ease-in-out duration-500">
+                      {item.untuk}
+                    </p>
+                    <button
+                      onClick={openPopup}
+                      className="w-full bg-secondary hover:bg-primary text-putih font-semibold text-xs md:text-base py-1.5 md:py-2 rounded-full mt-2 md:mt-4 transition-all ease-in-out duration-300"
+                    >
+                      Order Now
+                    </button>
+                    <div className="likeButton">
+                      <button onClick={() => toggleLove(item, 'non-coffee')} className="absolute top-2 right-2 transition-all duration-300">
+                        <FaHeart className={`text-lg ${isLoved(item.id, 'non-coffee') ? 'text-red-500' : 'text-gray-300'} transition-colors duration-300`} />
+                      </button>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p className="text-gray-500 text-center w-full">
+                  Tidak ada produk non-coffee ditemukan
+                </p>
+              )}
+            </div>
+          </>
+        ) : (
+          <>
+            <h2 className="text-2xl text-primary mb-20 font-bold">Minuman disukai</h2>
+            {(() => {
+              const lovedCoffee = listProductCoffe.filter(item => isLoved(item.id, 'coffee'));
+              const lovedNonCoffee = listProductNonCoffe.filter(item => isLoved(item.id, 'non-coffee'));
+              const allLoved = [
+                ...lovedCoffee.map(item => ({ ...item, tipe: 'coffee' })),
+                ...lovedNonCoffee.map(item => ({ ...item, tipe: 'non-coffee' }))
+              ];
+              return (
+                <div className=" grid grid-cols-2 md:flex md:flex-row md:flex-wrap gap-7 md:gap-20 my-10 md:my-25 md:mt-40 justify-center">
+                  {allLoved.length > 0 ? (
+                    allLoved.map((item) => (
+                      <div
+                        key={`${item.tipe}-${item.id}`}
+                        className="card bg-putih hover:bg-accent relative group rounded-2xl mb-8 md:mb-25 pt-24 md:pt-40 shadow-lg p-3 md:p-5 w-full md:w-[280px] border border-accent/30 transition-all ease-in-out duration-300"
+                      >
+                        <div className="gambar">
+                          <img
+                            src={item.gambar}
+                            alt={item.nama}
+                            className="rounded-xl absolute bottom-[65%] md:bottom-60 left-2 md:left-10 w-[85%] md:w-[225px] group-hover:scale-110 group-hover:rotate-3 transition-all ease-in-out duration-500"
+                          />
+                        </div>
+                        <span className="text-[8px] md:text-[10px] bg-secondary text-putih px-2 py-0.5 rounded-full font-semibold">
+                          {item.tipe === 'coffee' ? 'Coffee' : 'Non-Coffee'}
+                        </span>
+                        <h3 className="text-sm md:text-lg text-primary font-bold mt-1">
+                          {item.nama}
+                        </h3>
+                        <p className="text-xs md:text-base text-secondary font-semibold">
+                          {item.harga}
+                        </p>
+                        <p className="text-[8px] md:text-[12px] text-black mt-1 md:mt-2 font-semibold hidden md:block">
+                          {item.deskripsi}
+                        </p>
+                        {/* <p className="text-[7px] md:text-[12px] text-start group-hover:bg-primary bg-accent py-1.5 md:py-3 px-2 md:px-5 rounded-full font-semibold group-hover:text-accent text-primary mt-1 md:mt-2 transition-all ease-in-out duration-500">
+                          {item.untuk}
+                        </p> */}
+                        <button
+                          onClick={openPopup}
+                          className="w-full bg-secondary hover:bg-primary text-putih font-semibold text-xs md:text-base py-1.5 md:py-2 rounded-full mt-2 md:mt-4 transition-all ease-in-out duration-300"
+                        >
+                          Order Now
+                        </button>
+                        <div className="likeButton">
+                          <button onClick={() => toggleLove(item, item.tipe)} className="absolute top-2 right-2 transition-all duration-300">
+                            <FaHeart className="text-lg text-red-500  transition-colors duration-300" />
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="col-span-2 md:col-span-4 flex justify-center items-center h-64">
+                      <p className="text-gray-500 text-center w-full">
+                        Anda belum menyukai minuman apapun
+                      </p>
+                    </div>
+                  )}
                 </div>
-                <h3 className="text-sm md:text-lg text-primary font-bold">
-                  {item.nama}
-                </h3>
-                <p className="text-xs md:text-base text-secondary font-semibold">
-                  {item.harga}
-                </p>
-                <p className="text-[10px] md:text-[12px] text-black mt-1 md:mt-2 font-semibold hidden md:block">
-                  {item.deskripsi}
-                </p>
-                <p className="text-[8px] md:text-[12px] text-start group-hover:bg-primary bg-accent py-1.5 md:py-3 px-2 md:px-5 rounded-full font-semibold group-hover:text-accent text-primary mt-1 md:mt-2 transition-all ease-in-out duration-500">
-                  {item.untuk}
-                </p>
-                <button
-                  onClick={openPopup}
-                  className="w-full bg-secondary hover:bg-primary text-putih font-semibold text-xs md:text-base py-1.5 md:py-2 rounded-full mt-2 md:mt-4 transition-all ease-in-out duration-300"
-                >
-                  Order Now
-                </button>
-              </div>
-            ))
-          ) : (
-            <p className="text-gray-500 text-center w-full">
-              Tidak ada produk non-coffee ditemukan
-            </p>
-          )}
-        </div>
+              );
+            })()}
+          </>
+        )}
+        {/* Popup HowToBuy */}
+        <HowToBuy isOpen={isPopupOpen} onClose={closePopup} />
       </div>
-
-      {/* Popup HowToBuy */}
-      <HowToBuy isOpen={isPopupOpen} onClose={closePopup} />
     </>
   );
 };

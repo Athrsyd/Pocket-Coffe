@@ -54,6 +54,7 @@ const Testimoni = () => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
+          padding: 0,
         },
       },
       {
@@ -61,6 +62,15 @@ const Testimoni = () => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
+          padding: 0,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          padding: 0,
         },
       },
     ],
@@ -69,17 +79,17 @@ const Testimoni = () => {
   return (
     <>
       <Trans3 />
-      <div id="testimonial" className="bg-secondary py-15">
+      <div id="testimonial" className="bg-secondary py-10 sm:py-15">
         <h1
-          className="font-comic font-bold text-3xl text-center text-putih"
+          className="font-comic font-bold text-2xl sm:text-3xl text-center text-putih px-4"
           data-aos="fade-up"
         >
           Apa Kata Mereka tentang Pocket Coffee
         </h1>
-        <div className="mt-10 px-10 relative">
+        <div className="mt-6 sm:mt-10 px-3 sm:px-10 relative">
           {/* Gradient kiri */}
           <div
-            className="absolute left-0 top-0 sm:ml-5 sm:block hidden bottom-0 w-25 z-10 pointer-events-none"
+            className="absolute left-0 top-0 hidden sm:block bottom-0 w-16 md:w-25 z-10 pointer-events-none"
             style={{
               background:
                 "linear-gradient(to right, #E5890A 0%, #E5890A 20%, rgba(229, 137, 10, 0.8) 40%, rgba(229, 137, 10, 0.4) 70%, transparent 100%)",
@@ -87,7 +97,7 @@ const Testimoni = () => {
           ></div>
           {/* Gradient kanan */}
           <div
-            className="absolute right-0 top-0 sm:mr-7 sm:block hidden bottom-0 w-25 z-10 pointer-events-none"
+            className="absolute right-0 top-0 hidden sm:block bottom-0 w-16 md:w-25 z-10 pointer-events-none"
             style={{
               background:
                 "linear-gradient(to left, #E5890A 0%, #E5890A 20%, rgba(229, 137, 10, 0.8) 40%, rgba(229, 137, 10, 0.4) 70%, transparent 100%)",
@@ -98,28 +108,25 @@ const Testimoni = () => {
             {testimoniData.map((item, idx) => (
               <div
                 key={item.id}
-                className="px-6 h-full mb-5"
+                className="px-2 sm:px-4 md:px-6 h-full mb-3 sm:mb-5 outline-none focus:outline-none"
                 data-aos="zoom-in-up"
                 data-aos-delay={idx * 100}
               >
-                <div className="bg-putih rounded-2xl p-6 shadow-lg h-auto flex flex-col justify-center items-center">
-                  {/* Quote Icon */}
-                  <div className="flex flex-row-reverse justify-center items-center w-full mb-4">
-                    {/* Testimonial Image */}
-                    <div className="w-full h-100 rounded-xl overflow-hidden border-4 border-accent mb-4" data-aos="zoom-in">
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
+                <div className="bg-putih rounded-2xl p-4 sm:p-6 shadow-lg h-full flex flex-col justify-center items-center">
+                  {/* Testimonial Image */}
+                  <div className="w-full mb-3 sm:mb-4 rounded-xl overflow-hidden border-3 sm:border-4 border-accent">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-full h-auto object-cover aspect-square"
+                    />
                   </div>
                   {/* Name */}
                   <h3
-                    className="text-primary text-start font-comic font-bold text-lg italic shrink-0"
+                    className="text-primary text-center font-comic font-bold text-base sm:text-lg italic"
                     data-aos="fade-up"
                   >
-                    -{item.name}
+                    {item.name}
                   </h3>
                 </div>
               </div>
